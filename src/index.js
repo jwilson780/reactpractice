@@ -1,15 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const App = () => {
-	return (
-	 <h2 className = "text-center">
-	  Hello React with Component!!
-	 </h2>
-	);
+const Header = ({message}) =>{
+  return(
+		<h2>
+			{message}
+		</h2>
+  );
 };
 
+//proptyping to ensure that the correct app compoent is getting correct
+Header.propTypes = {
+  message: React.PropTypes.string
+};
+
+const App = () => {
+  return (
+		<div>
+			<Header message = "Naming Constests"/>
+			<div>
+				...
+			</div>
+		</div>
+
+  );
+};
+
+
+
+
+
 ReactDOM.render(
-  <App />,
+	<App />,
   document.getElementById('root')
 );

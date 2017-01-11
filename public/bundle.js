@@ -59,11 +59,31 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var App = function App() {
+	var Header = function Header(_ref) {
+		var message = _ref.message;
+	
 		return _react2.default.createElement(
 			'h2',
-			{ className: 'text-center' },
-			'Hello React with Component!!'
+			null,
+			message
+		);
+	};
+	
+	//proptyping to ensure that the correct app compoent is getting correct
+	Header.propTypes = {
+		message: _react2.default.PropTypes.string
+	};
+	
+	var App = function App() {
+		return _react2.default.createElement(
+			'div',
+			null,
+			_react2.default.createElement(Header, { message: 'Naming Constests' }),
+			_react2.default.createElement(
+				'div',
+				null,
+				'...'
+			)
 		);
 	};
 	
