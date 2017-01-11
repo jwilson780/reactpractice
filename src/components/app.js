@@ -1,17 +1,22 @@
 
 import React from 'react';
 import Header from './header';
-
-const App = () => {
-  return (
-		<div className = "App">
-			<Header message = "Naming Constests"/>
-			<div>
-				...
-			</div>
-		</div>
-
-  );
-};
+//use functional syntax if stateless
+//class snytax if dynamic
+class App extends React.Component{
+  state = {
+    pageHeader: 'Naming Contests'
+  };
+  render(){
+    return(
+      <div className="App">
+        <Header message={this.state.pageHeader}/>
+        <div>
+          ...
+        </div>
+      </div>
+    );
+  }
+}
 
 export default App;
