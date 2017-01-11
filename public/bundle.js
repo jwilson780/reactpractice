@@ -57,37 +57,13 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _app = __webpack_require__(/*! ./components/app */ 178);
+	
+	var _app2 = _interopRequireDefault(_app);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Header = function Header(_ref) {
-		var message = _ref.message;
-	
-		return _react2.default.createElement(
-			'h2',
-			null,
-			message
-		);
-	};
-	
-	//proptyping to ensure that the correct app compoent is getting correct
-	Header.propTypes = {
-		message: _react2.default.PropTypes.string
-	};
-	
-	var App = function App() {
-		return _react2.default.createElement(
-			'div',
-			null,
-			_react2.default.createElement(Header, { message: 'Naming Constests' }),
-			_react2.default.createElement(
-				'div',
-				null,
-				'...'
-			)
-		);
-	};
-	
-	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
+	_reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('root'));
 
 /***/ },
 /* 1 */
@@ -22088,6 +22064,79 @@
 	
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 3)))
+
+/***/ },
+/* 178 */
+/*!*******************************!*\
+  !*** ./src/components/app.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _header = __webpack_require__(/*! ./header */ 179);
+	
+	var _header2 = _interopRequireDefault(_header);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var App = function App() {
+		return _react2.default.createElement(
+			'div',
+			{ className: 'App' },
+			_react2.default.createElement(_header2.default, { message: 'Naming Constests' }),
+			_react2.default.createElement(
+				'div',
+				null,
+				'...'
+			)
+		);
+	};
+	
+	exports.default = App;
+
+/***/ },
+/* 179 */
+/*!**********************************!*\
+  !*** ./src/components/header.js ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Header = function Header(_ref) {
+	  var message = _ref.message;
+	
+	  return _react2.default.createElement(
+	    "h2",
+	    { className: "Header text-center" },
+	    message
+	  );
+	};
+	
+	Header.propTypes = {
+	  message: _react2.default.PropTypes.string
+	};
+	
+	exports.default = Header;
 
 /***/ }
 /******/ ]);
