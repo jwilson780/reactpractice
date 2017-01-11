@@ -5,12 +5,16 @@ import apiRouter from './api';
 
 const server = express();//creates server in express
 
-server.get('/', (req, res) =>{
-	res.send('Hello express\n');
-});
-
 //need to use nginX to handle static assets in production
 //express will take care of serving the content when requested
+
+server.set('view engine', 'ejs');
+
+server.get('/', (req, res) => {
+	res.render('index', {
+		content: 'Hello Express and <em>EJS</em>!'
+	});
+});
 
 server.use('/api', apiRouter);
 
