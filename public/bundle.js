@@ -61,9 +61,13 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
+	var _testData = __webpack_require__(/*! ./testData */ 181);
+	
+	var _testData2 = _interopRequireDefault(_testData);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById('root'));
+	_reactDom2.default.render(_react2.default.createElement(_app2.default, { contests: _testData2.default.contests }), document.getElementById('root'));
 
 /***/ },
 /* 1 */
@@ -22088,6 +22092,10 @@
 	
 	var _header2 = _interopRequireDefault(_header);
 	
+	var _contestpreview = __webpack_require__(/*! ./contestpreview */ 180);
+	
+	var _contestpreview2 = _interopRequireDefault(_contestpreview);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22118,6 +22126,20 @@
 	  }
 	
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	
+	    //use react lifecyle methods to do stuff
+	    value: function componentDidMount() {
+	      //usually an ajax fetch
+	      //fire timers
+	      //fire listeners
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      //clean mounted stuff
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -22127,7 +22149,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          '...'
+	          this.props.contests.map(function (contest) {
+	            return _react2.default.createElement(_contestpreview2.default, contest);
+	          })
 	        )
 	      );
 	    }
@@ -22172,6 +22196,76 @@
 	};
 	
 	exports.default = Header;
+
+/***/ },
+/* 180 */
+/*!******************************************!*\
+  !*** ./src/components/contestpreview.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ContestPreview = function ContestPreview(contest) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'ContestPreview' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'category-name' },
+	      contest.categoryName
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'contest-name' },
+	      contest.contestName
+	    )
+	  );
+	};
+	
+	exports.default = ContestPreview;
+
+/***/ },
+/* 181 */
+/*!***************************!*\
+  !*** ./src/testData.json ***!
+  \***************************/
+/***/ function(module, exports) {
+
+	module.exports = {
+		"contests": [
+			{
+				"id": 1,
+				"categoryName": "Business/Company",
+				"contestName": "Cognitive Building Bricks"
+			},
+			{
+				"id": 2,
+				"categoryName": "Magazine/Newsletter",
+				"contestName": "Educating people about sustainable food production"
+			},
+			{
+				"id": 3,
+				"categoryName": "Software Component",
+				"contestName": "Big Data Analytics for Cash Circulation"
+			},
+			{
+				"id": 4,
+				"categoryName": "Website",
+				"contestName": "Free programming books"
+			}
+		]
+	};
 
 /***/ }
 /******/ ]);
