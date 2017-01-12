@@ -2,7 +2,8 @@
 import React from 'react';
 import Header from './header';
 import ContestPreview from './contestpreview';
-import data from '../testData';
+import axios from 'axios';
+
 //use functional syntax if stateless
 //class snytax if dynamic
 class App extends React.Component{
@@ -12,9 +13,18 @@ class App extends React.Component{
   };
   //use react lifecyle methods to do stuff
   componentDidMount(){
-    this.setState({
-      contests: data.contests
-    });
+    //ajax..
+    axios.get('/api/contests')
+      .then(resp => {
+        this.setState({
+          contests: resp.data.contests
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
   }
   componentWillUnmount(){
     //clean mounted stuff
