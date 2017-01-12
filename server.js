@@ -6,20 +6,25 @@ import path from 'path';
 
 const server = express();
 
-server.use(sassMiddleware({
-  src: path.join(__dirname, 'sass'),
-  des: path.join(__dirname, 'public')
-}));
-
 server.set('view engine', 'ejs');
 
-import './serverRender';
+import serverRender from './serverRender';
 
 server.get('/', (req, res) => {
-  res.render('index', {
-    content: '...'
-  });
+  serverRender()
+    .then(({initialMarkup, initialData}) => {
+      res.render('index',{
+        initialMarkup,
+        initialData
+      });
+    })
+    .catch(console.error);
 });
+
+server.use(sassMiddleware({
+  src: path.join(__dirname, 'sass'),
+  dest: path.join(__dirname, 'public')
+}));
 
 server.use('/api', apiRouter);
 server.use(express.static('public'));
