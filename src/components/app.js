@@ -2,18 +2,19 @@
 import React from 'react';
 import Header from './header';
 import ContestPreview from './contestpreview';
-
+import data from '../testData';
 //use functional syntax if stateless
 //class snytax if dynamic
 class App extends React.Component{
   state = {
-    pageHeader: 'Naming Contests'
+    pageHeader: 'Naming Contests Example',
+    contests: []
   };
   //use react lifecyle methods to do stuff
   componentDidMount(){
-    //usually an ajax fetch
-    //fire timers
-    //fire listeners
+    this.setState({
+      contests: data.contests
+    });
   }
   componentWillUnmount(){
     //clean mounted stuff
@@ -23,8 +24,8 @@ class App extends React.Component{
       <div className="App">
         <Header message={this.state.pageHeader}/>
         <div>
-          {this.props.contests.map(contest =>
-            <ContestPreview {...contest}/>
+          {this.state.contests.map(contest =>
+            <ContestPreview key={contest.id} {...contest}/>
           )}
         </div>
       </div>
