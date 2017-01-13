@@ -1,11 +1,17 @@
 
 import React from 'react';
 import Header from './header';
-import ContestPreview from './contestpreview';
+import ContestList from './contest-list';
 
 
 //use functional syntax if stateless
 //class snytax if dynamic
+
+
+const pushState = (obj,url) => {
+  window.history.pushState(obj,'',url);
+};
+
 class App extends React.Component{
   state = {
     pageHeader: 'Naming Contests Example',
@@ -20,16 +26,22 @@ class App extends React.Component{
     //clean mounted stuff
   }
 
+  fetchContest = (contestId) => {
+    pushState(
+      {currentContestId: contestId},
+      `/contest/${contestId}`
+    );
+  };
+
 
   render(){
     return(
       <div className="App">
-        <Header message={this.state.pageHeader}/>
-        <div>
-          {this.state.contests.map(contest =>
-            <ContestPreview key={contest.id} {...contest}/>
-          )}
-        </div>
+        <Header message={this.state.pageHeader} />
+        <ContestList
+          onContestClick = {this.fetchContest}
+          contests={this.state.contests}
+          />
       </div>
     );
   }
