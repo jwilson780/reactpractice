@@ -13,18 +13,26 @@ const pushState = (obj,url) => {
   window.history.pushState(obj,'',url);
 };
 
+const onPopState = handler => {
+  window.onpopstate = handler;
+};
+
 class App extends React.Component{
-  state = {
-    pageHeader: 'Naming Contests Example',
-    contests: this.props.initialContests
+  static propTypes = {
+    initialData: React.PropTypes.object.isRequired
   };
+  state = this.props.initialData;
   //use react lifecyle methods to do stuff
   componentDidMount(){
-    //ajax..
+    onPopState((event) => {
+      this.setState({
+        currentContestId: (event.state || {}).currentContestId
+      });
+    });
   }
 
   componentWillUnmount(){
-    //clean mounted stuff
+    onPopState(null);//cleaning pout the mounted stuff
   }
 
   fetchContest = (contestId) => {
@@ -35,7 +43,6 @@ class App extends React.Component{
 
     api.fetchContest(contestId).then(contest =>{
       this.setState({
-        pageHeader: contest.contestName,
         currentContestId: contest.id,
         contests: {//cache fetched contest stuff on the state
           ...this.state.contests,
@@ -45,9 +52,36 @@ class App extends React.Component{
     });
   }
 
+  fetchContestList = () => {
+    pushState(
+      {currentContestId: null},
+      '/'
+    );
+    api.fetchContestList().then(contests =>{
+      this.setState({
+        currentContestId: null,
+        contests
+      });
+    });
+  }
+
+
+  pageHeader(){
+    if(this.state.currentContestId){
+      return this.currentContest().contestName;
+    }
+    return 'Naming Contest Example';
+  }
+
+  currentContest(){
+    return this.state.contests[this.state.currentContestId];
+  }
+
   currentContent(){
     if(this.state.currentContestId){
-      return <Contest {...this.state.contests[this.state.currentContestId]} />;
+      return <Contest
+        contestListClick = {this.fetchContestList}
+        {...this.currentContest()} />;
     }
     return  <ContestList onContestClick = {this.fetchContest} contests={this.state.contests} />;
   }
@@ -55,7 +89,7 @@ class App extends React.Component{
   render(){
     return(
       <div className="App">
-        <Header message={this.state.pageHeader} />
+        <Header message={this.pageHeader()} />
         {this.currentContent()}
       </div>
     );
