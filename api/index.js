@@ -1,5 +1,5 @@
 import express from 'express';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectID } from 'mongodb';
 import assert from 'assert';
 import config from '../config';
 
@@ -16,7 +16,6 @@ router.get('/contests', (req, res) => {
   let contests = {};
   mdb.collection('contests').find({})
      .project({
-       id: 1,
        categoryName: 1,
        contestName: 1
      })
@@ -28,15 +27,31 @@ router.get('/contests', (req, res) => {
          return;
        }
 
-       contests[contest.id] = contest;
+       contests[contest._id] = contest;
      });
 });
 
 router.get('/contests/:contestId', (req, res) => {
   mdb.collection('contests')
-     .findOne({ id: Number(req.params.contestId) })
+     .findOne({ _id: ObjectID(req.params.contestId) })
      .then(contest => res.send(contest))
      .catch(console.error);
+});
+
+router.get('/name/:nameIds', (req, res) => {
+  let names = {};
+  const nameIds = req.params.nameIds.split(',').map(ObjectID);
+  mdb.collection('names').find({_id: {$in: nameIds}})
+     .each((err, name) => {
+       assert.equal(null, err);
+
+       if (!name) { // no more contests
+         res.send({ names });
+         return;
+       }
+
+       names[name._id] = name;
+     });
 });
 
 export default router;

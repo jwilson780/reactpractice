@@ -12,10 +12,13 @@ const onPopState = handler => {
 };
 
 class App extends React.Component {
+
   static propTypes = {
     initialData: React.PropTypes.object.isRequired
   };
+
   state = this.props.initialData;
+
   componentDidMount() {
     onPopState((event) => {
       this.setState({
@@ -23,9 +26,11 @@ class App extends React.Component {
       });
     });
   }
+
   componentWillUnmount() {
     onPopState(null);
   }
+
   fetchContest = (contestId) => {
     pushState(
       { currentContestId: contestId },
@@ -33,14 +38,15 @@ class App extends React.Component {
     );
     api.fetchContest(contestId).then(contest => {
       this.setState({
-        currentContestId: contest.id,
+        currentContestId: contest._id,
         contests: {
           ...this.state.contests,
-          [contest.id]: contest
+          [contest._id]: contest
         }
       });
     });
   };
+
   fetchContestList = () => {
     pushState(
       { currentContestId: null },
@@ -53,9 +59,22 @@ class App extends React.Component {
       });
     });
   };
+
+  fetchNames = (nameIds) => {
+    if(nameIds.length === 0){
+      return;
+    }
+    api.fetchNames(nameIds).then(names => {
+      this.setState({
+        names
+      });
+    });
+  }
+
   currentContest() {
     return this.state.contests[this.state.currentContestId];
   }
+
   pageHeader() {
     if (this.state.currentContestId) {
       return this.currentContest().contestName;
@@ -63,17 +82,32 @@ class App extends React.Component {
 
     return 'Naming Contests';
   }
+
+  lookUpName = (nameId) => {
+    if(!this.state.names || !this.state.names[nameId]){
+      return {
+        name: '...'
+      };
+    }
+    return this.state.names[nameId];
+  };
+
   currentContent() {
     if (this.state.currentContestId) {
       return <Contest
                contestListClick={this.fetchContestList}
-               {...this.currentContest()} />;
+               lookUpName = {this.lookUpName}
+               fetchNames = {this.fetchNames}
+               {...this.currentContest()}
+               />;
     }
 
     return <ContestList
             onContestClick={this.fetchContest}
-            contests={this.state.contests} />;
+            contests={this.state.contests}
+            />;
   }
+
   render() {
     return (
       <div className="App">
