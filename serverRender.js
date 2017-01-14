@@ -1,46 +1,42 @@
-//fetch data from api
-//for search engine optimization
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import App from './src/components/app';
 
-import axios from 'axios';
 import config from './config';
+import axios from 'axios';
 
 const getApiUrl = contestId => {
-  if(contestId){
-    return `${config.serverURL}/api/contests/${contestId}`;
+  if (contestId) {
+    return `${config.serverUrl}/api/contests/${contestId}`;
   }
-  return `${config.serverURL}/api/contests`;
+  return `${config.serverUrl}/api/contests`;
 };
 
 const getInitialData = (contestId, apiData) => {
-  if(contestId){
-    return{
+  if (contestId) {
+    return {
       currentContestId: apiData.id,
-      contests:{
+      contests: {
         [apiData.id]: apiData
       }
     };
   }
-  return{
+  return {
     contests: apiData.contests
   };
 };
 
-
-const renderServer = (contestId) => {
-  return axios.get(getApiUrl(contestId))
-    .then(resp =>{
+const serverRender = (contestId) =>
+  axios.get(getApiUrl(contestId))
+    .then(resp => {
       const initialData = getInitialData(contestId, resp.data);
-      return{
+      return {
         initialMarkup: ReactDOMServer.renderToString(
-        <App initialData={initialData}/>
-      ),
+          <App initialData={initialData} />
+        ),
         initialData
       };
     });
-};
 
-export default renderServer;
+export default serverRender;
