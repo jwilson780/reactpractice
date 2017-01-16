@@ -3,6 +3,7 @@ import apiRouter from './api';
 import sassMiddleware from 'node-sass-middleware';
 import express from 'express';
 import path from 'path';
+import bodyParser from 'body-parser';
 
 const server = express();
 
@@ -10,6 +11,7 @@ server.set('view engine', 'ejs');
 
 import serverRender from './serverRender';
 
+server.use(bodyParser.json());
 server.get(['/', '/contest/:contestId'], (req, res) => {
   serverRender(req.params.contestId)
     .then(({initialMarkup, initialData}) => {
